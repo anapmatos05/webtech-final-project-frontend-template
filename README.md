@@ -1,27 +1,78 @@
-# WebtechFinalProjectFrontendTemplate
+# Web Technologies Final Project (Frontend)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.11.
+This repository is the official Angular frontend template for the final project.
+Focus on building your application features. The project already includes automated checks for structure, linting, tests, and build.
 
-## Development server
+## Install dependencies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+```bash
+npm install
+```
 
-## Code scaffolding
+## Run the project locally
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm start
+```
 
-## Build
+Open `http://localhost:4200/` in your browser.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Quality checks (local)
 
-## Running unit tests
+Run all checks:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+npm run quality
+```
 
-## Running end-to-end tests
+Teacher grading (score + report):
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+npm run grade
+```
 
-## Further help
+Run individual checks:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+npm run validate
+npm run lint
+npm run test:ci
+npm run build
+```
+
+What each check does:
+
+- `validate`: ensures the minimum required project structure exists.
+- `lint`: runs Angular ESLint to enforce basic code quality.
+- `test:ci`: runs unit tests once in a headless browser (CI friendly).
+- `build`: builds the Angular app to verify it compiles.
+
+## Files and folders students should not edit
+
+Do not edit:
+
+- .github/workflows/\*\*
+- scripts/\*\*
+- angular.json
+- package.json
+- package-lock.json
+- eslint.config.\*
+- tsconfig\*.json
+
+You can edit:
+
+- src/app/features/\*\*
+- src/app/shared/\*\*
+- src/app/core/services/\*\*
+- src/app/core/models/\*\*
+- PROJECT_INFO.md
+- README.md (only the project-specific sections)
+
+## Project-specific sections to complete
+
+- Fill in [PROJECT_INFO.md](PROJECT_INFO.md) with your group and project details.
+- Add any project notes in this README below.
+
+### Project Notes
+
+Add your project-specific notes here.

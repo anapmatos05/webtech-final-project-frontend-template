@@ -3,10 +3,20 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "prepare": "git rev-parse --git-dir > /dev/null 2>&1 && git config core.hooksPath .githooks || true",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "lint": "ng lint",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:validate": "node scripts/test-validate.js",
+    "validate": "node scripts/validate-project.js",
+    "grade": "node scripts/validate-project.js --grade",
+    "grade:mini": "node scripts/grade-mini.js",
+    "grade:test": "node scripts/grade-test.js",
+    "grade:cleanup": "node scripts/grade-cleanup.js",
+    "quality": "npm run validate && npm run lint && npm run test:ci && npm run build"
   },
   "private": true,
   "dependencies": {
@@ -27,12 +37,15 @@
     "@angular/cli": "^17.3.11",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "21.0.1",
+    "eslint": "^9.39.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.4.2"
+    "typescript": "~5.4.2",
+    "typescript-eslint": "8.46.4"
   }
 }
