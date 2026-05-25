@@ -1,1 +1,33 @@
-<p>search works!</p>
+<div class="search-container">
+  <h2>Pesquisar Filmes</h2>
+  
+  <div class="search-box">
+    <input 
+      type="text" 
+      [(ngModel)]="searchQuery" 
+      (keyup.enter)="onSearch()"
+      placeholder="Escreve o nome de um filme..."
+    />
+    <button (click)="onSearch()">Buscar</button>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">A pesquisar...</div>
+
+  <div *ngIf="!isLoading && searchResults.length > 0" class="movies-grid">
+    <div class="movie-card" *ngFor="let movie of searchResults">
+      <img 
+        *ngIf="movie.poster_path"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+        [alt]="movie.title"
+      />
+      <div class="movie-info">
+        <h3>{{ movie.title }}</h3>
+        <span class="rating">⭐ {{ movie.vote_average | number:'1.1-1' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="hasSearched && !isLoading && searchResults.length === 0" class="no-results">
+    Nenhum filme encontrado para "{{ searchQuery }}".
+  </div>
+</div>
