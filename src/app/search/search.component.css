@@ -23,7 +23,7 @@
 
 .search-box button {
   padding: 12px 24px;
-  background-color: #e50914; /* Vermelho estilo Netflix/CineTrack */
+  background-color: #e50914;
   color: white;
   border: none;
   border-radius: 6px;
@@ -75,9 +75,17 @@
   font-size: 0.9rem;
 }
 
-.loading, .no-results {
+.loading {
   text-align: center;
   padding: 2rem;
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+/* Customizado para o aviso ficar colado à barra sem empurrar o layout */
+.no-results {
+  text-align: center;
+  padding: 1rem 0 3rem 0;
   font-size: 1.2rem;
   color: #aaa;
 }

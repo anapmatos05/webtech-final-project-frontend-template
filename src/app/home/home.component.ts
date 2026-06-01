@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieService, Movie } from '../services/movie.service';
-
+import { SearchComponent } from '../search/search.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SearchComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -15,6 +15,9 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   hasError: boolean = false;
   errorMessage: string = '';
+
+  hasSearched = signal(false);
+
 
   constructor(private movieService: MovieService) {}
 
@@ -49,5 +52,10 @@ export class HomeComponent implements OnInit {
     if (rating >= 7) return 'rating-high';
     if (rating >= 5) return 'rating-medium';
     return 'rating-low';
+  }
+  
+  setHasSearched(value: boolean): void {
+    console.log('Valor recebido de SearchComponent:', value);
+    this.hasSearched.set(value);
   }
 }

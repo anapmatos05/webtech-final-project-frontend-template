@@ -9,7 +9,6 @@ describe('SearchComponent', () => {
   let component: SearchComponent;
   let fixture: ComponentFixture<SearchComponent>;
 
-  // Criamos um objeto simulado simples usando funções normais do TypeScript
   const movieServiceMock = {
     searchMovies: () => of({ results: [], total_pages: 1, total_results: 0, page: 1 })
   };

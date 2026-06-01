@@ -1,6 +1,5 @@
 <div class="home-container">
 
-  <!-- Hero / Cabeçalho -->
   <section class="hero">
     <div class="hero-content">
       <h1 class="hero-title">
@@ -8,34 +7,32 @@
         CineTrack
       </h1>
       <p class="hero-subtitle">Descobre, guarda e acompanha os teus filmes favoritos</p>
+      
+      <app-search (setHasSearchedoutput)="setHasSearched($event)"></app-search>
     </div>
   </section>
+@if(!hasSearched()){
 
-  <!-- Secção de Filmes Populares -->
   <section class="popular-section">
     <h2 class="section-title">🔥 Filmes Populares</h2>
 
-    <!-- Estado: Loading -->
     <div class="loading-container" *ngIf="isLoading">
       <div class="spinner"></div>
       <p class="loading-text">A carregar filmes...</p>
     </div>
 
-    <!-- Estado: Erro -->
     <div class="error-container" *ngIf="hasError && !isLoading">
       <span class="error-icon">⚠️</span>
       <p class="error-message">{{ errorMessage }}</p>
       <button class="retry-btn" (click)="loadPopularMovies()">Tentar novamente</button>
     </div>
 
-    <!-- Grelha de Filmes -->
     <div class="movies-grid" *ngIf="!isLoading && !hasError">
       <div
         class="movie-card"
         *ngFor="let movie of movies"
         [routerLink]="['/movie', movie.id]"
       >
-        <!-- Poster -->
         <div class="card-poster">
           <img
             [src]="getPosterUrl(movie.poster_path)"
@@ -43,13 +40,11 @@
             class="poster-img"
             loading="lazy"
           />
-          <!-- Rating badge -->
           <span class="rating-badge" [ngClass]="getRatingClass(movie.vote_average)">
             ⭐ {{ movie.vote_average | number:'1.1-1' }}
           </span>
         </div>
 
-        <!-- Info do filme -->
         <div class="card-info">
           <h3 class="movie-title">{{ movie.title }}</h3>
           <p class="movie-date">
@@ -57,7 +52,6 @@
           </p>
           <p class="movie-overview">{{ movie.overview | slice:0:100 }}{{ movie.overview.length > 100 ? '...' : '' }}</p>
 
-          <!-- Ações -->
           <div class="card-actions">
             <button class="btn-favorite" title="Adicionar aos favoritos" (click)="$event.stopPropagation()">
               ♡
@@ -71,4 +65,5 @@
     </div>
 
   </section>
+}
 </div>
