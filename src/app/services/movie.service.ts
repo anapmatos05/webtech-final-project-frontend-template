@@ -24,7 +24,7 @@ export interface MovieResponse {
   providedIn: 'root'
 })
 export class MovieService {
-  private readonly API_KEY = 'SUA_API_KEY_AQUI'; // Substitui pela tua API key do TMDB
+  private readonly API_KEY = 'd9bfc43c23a285354b0c14289aea0ad6'; // Substitui pela tua API key do TMDB
   private readonly BASE_URL = 'https://api.themoviedb.org/3';
   readonly IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
