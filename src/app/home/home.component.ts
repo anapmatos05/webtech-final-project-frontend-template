@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieService, Movie } from '../services/movie.service';
 import { SearchComponent } from '../search/search.component';
+import { SearchModule } from '../search/search.module';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule, SearchComponent],
+  imports: [CommonModule, RouterModule, SearchModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

@@ -16,7 +16,9 @@
     <div *ngIf="isLoading" class="loading">A pesquisar...</div>
 
     <div *ngIf="!isLoading && searchResults.length > 0" class="movies-grid">
-      <div class="movie-card" *ngFor="let movie of searchResults">
+      
+      <div class="movie-card" *ngFor="let movie of searchResults" [routerLink]="['/movie', movie.id]" style="cursor: pointer;">
+        
         <img 
           *ngIf="movie.poster_path"
           [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
@@ -27,6 +29,7 @@
           <span class="rating">⭐ {{ movie.vote_average | number:'1.1-1' }}</span>
         </div>
       </div>
+
     </div>
 
     <div *ngIf="hasSearched && !isLoading && searchResults.length === 0" class="no-results">
