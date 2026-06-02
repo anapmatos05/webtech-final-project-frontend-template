@@ -1,48 +1,50 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../app.config'; // Importa a configuração diretamente do app.config
+
+export interface Movie {
+  id: number;
+  title: string;
+  poster_path: string;
+  backdrop_path: string;
+  overview: string;
+  vote_average: number;
+  release_date: string;
+  genre_ids: number[];
+}
+
+export interface MovieResponse {
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+  page: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class MovieService {
-  private http = inject(HttpClient);
-  private baseUrl = environment.tmdbBaseUrl;
-  private token = environment.tmdbToken;
+  private readonly API_KEY = 'd9bfc43c23a285354b0c14289aea0ad6'; // Substitui pela tua API key do TMDB
+  private readonly BASE_URL = 'https://api.themoviedb.org/3';
+  readonly IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-  // Cabeçalhos HTTP para validar o teu token no TMDB
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`,
-      'accept': 'application/json'
-    });
+  constructor(private http: HttpClient) { }
+
+  getPopularMovies(page: number = 1): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(
+      `${this.BASE_URL}/movie/popular?api_key=${this.API_KEY}&language=pt-PT&page=${page}`
+    );
   }
 
-  /**
-   * Obtém os filmes mais populares do momento
-   */
-  getPopularMovies(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/movie/popular?language=pt-PT&page=1`, {
-      headers: this.getHeaders()
-    });
+  searchMovies(query: string): Observable<MovieResponse> {
+    return this.http.get<MovieResponse>(
+      `${this.BASE_URL}/search/movie?api_key=${this.API_KEY}&language=pt-PT&query=${query}`
+    );
   }
 
-  /**
-   * Pesquisa filmes por uma palavra-chave
-   */
-  searchMovies(query: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/search/movie?query=${encodeURIComponent(query)}&language=pt-PT&page=1`, {
-      headers: this.getHeaders()
-    });
-  }
-
-  /**
-   * Obtém todos os detalhes de um filme específico (sinopse, etc) pelo ID
-   */
-  getMovieDetails(movieId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/movie/${movieId}?language=pt-PT`, {
-      headers: this.getHeaders()
-    });
+  getMovieDetails(id: number): Observable<Movie> {
+    return this.http.get<Movie>(
+      `${this.BASE_URL}/movie/${id}?api_key=${this.API_KEY}&language=pt-PT`
+    );
   }
 }
