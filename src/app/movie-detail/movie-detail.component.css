@@ -1,0 +1,123 @@
+/* Fundo global do componente para o modo escuro */
+.detail-wrapper {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
+
+/* O Botão de Voltar */
+.btn-back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 20; /* Fica por cima da imagem */
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+/* Efeito vermelho ao passar o rato (combina com o vosso botão "Buscar") */
+.btn-back:hover {
+  background-color: #ef4444; 
+  border-color: #ef4444;
+}
+
+/* Secção da Imagem Gigante no Topo */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+}
+
+.backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* Gradiente que faz a imagem desaparecer suavemente para o escuro */
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, #121212);
+}
+
+/* Zona de Texto */
+.content-section {
+  max-width: 1000px;
+  margin: -60px auto 0; /* Puxa o texto um bocado para cima da imagem */
+  padding: 0 20px;
+  position: relative;
+  z-index: 10;
+}
+
+.movie-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+}
+
+/* Etiquetas (Pills) para o Ano e a Nota */
+.movie-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.meta-tag {
+  background-color: #1e1e1e; /* Fundo idêntico aos cartões da Home */
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  border: 1px solid #333;
+}
+
+.meta-tag.rating {
+  color: #eab308; /* Amarelo brilhante para a nota */
+}
+
+/* Sinopse */
+.synopsis-box h2 {
+  font-size: 1.5rem;
+  color: #ef4444; /* Detalhe vermelho no título da sinopse */
+  margin-bottom: 15px;
+}
+
+.synopsis-box p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #d1d5db; /* Texto ligeiramente acinzentado para leitura mais fácil */
+  max-width: 800px;
+}
+
+/* Ecrã de Loading */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #121212;
+  color: white;
+  font-size: 1.2rem;
+}

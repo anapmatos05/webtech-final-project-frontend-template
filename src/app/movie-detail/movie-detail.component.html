@@ -1,0 +1,34 @@
+<div class="detail-wrapper" *ngIf="movie">
+  
+  <button (click)="goBack()" class="btn-back">
+    <span class="arrow">←</span> Voltar atrás
+  </button>
+
+  <div class="hero-section">
+    <div class="image-overlay"></div>
+    <img 
+      *ngIf="movie.backdrop_path" 
+      [src]="imageBaseUrl + movie.backdrop_path" 
+      alt="Fundo do filme {{ movie.title }}" 
+      class="backdrop-img">
+  </div>
+
+  <div class="content-section">
+    <h1 class="movie-title">{{ movie.title }}</h1>
+    
+    <div class="movie-meta">
+      <span class="meta-tag year"> {{ movie.release_date | slice:0:4 }}</span>
+      <span class="meta-tag rating"><span class="star"></span> {{ movie.vote_average | number:'1.1-1' }}</span>
+    </div>
+
+    <div class="synopsis-box">
+      <h2>Sinopse</h2>
+      <p>{{ movie.overview || 'Sinopse não disponível em português.' }}</p>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="!movie" class="loading-state">
+  <p> A preparar a sala de cinema...</p>
+</div>
