@@ -1,0 +1,34 @@
+<div class="favorites-container">
+  <button routerLink="/" class="btn-back">
+    <span class="arrow">←</span> Voltar à Página Inicial
+  </button>
+  
+  <h1>Os Meus Favoritos</h1>
+  <p class="subtitle">A tua coleção pessoal de filmes guardados.</p>
+
+  <!-- O que aparece se a lista estiver VAZIA -->
+  <div *ngIf="favoriteMovies.length === 0" class="empty-state">
+    <span class="empty-icon">🍿</span>
+    <h2>A tua lista está vazia!</h2>
+    <p>Volta à página inicial e clica nos corações para guardares filmes aqui.</p>
+    <button routerLink="/" class="btn-primary">Explorar Filmes</button>
+  </div>
+
+  <!-- A grelha que aparece se HOUVER filmes guardados -->
+  <div *ngIf="favoriteMovies.length > 0" class="movies-grid">
+    <div class="movie-card" *ngFor="let movie of favoriteMovies" [routerLink]="['/movie', movie.id]">
+      
+      <img *ngIf="movie.poster_path" [src]="imageBaseUrl + movie.poster_path" [alt]="movie.title">
+      
+      <div class="movie-info">
+        <h3>{{ movie.title }}</h3>
+        
+        <!-- O botão de remover -->
+        <button class="btn-remove" (click)="removeFromFavorites(movie, $event)">
+          ❌ Remover
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

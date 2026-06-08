@@ -19,6 +19,12 @@ export const routes: Routes = [
     loadChildren: () => import('./movie-detail/movie-detail.module').then(m => m.MovieDetailModule)
   },
 
+  // Rota para a página de favoritos
+  { 
+    path: 'favorites', 
+    loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule) 
+  },
+
   // Rota de segurança (sempre no fim)
   { 
     path: '**', 

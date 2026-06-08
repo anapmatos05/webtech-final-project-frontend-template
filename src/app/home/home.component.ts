@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { MovieService, Movie } from '../services/movie.service';
 import { SearchComponent } from '../search/search.component';
 import { SearchModule } from '../search/search.module';
+import { FavoriteService } from '../services/favorite.service';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,7 +22,10 @@ export class HomeComponent implements OnInit {
   hasSearched = signal(false);
 
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    private favoriteService: FavoriteService
+  ) {}
 
   ngOnInit(): void {
     this.loadPopularMovies();
@@ -58,5 +63,23 @@ export class HomeComponent implements OnInit {
   setHasSearched(value: boolean): void {
     console.log('Valor recebido de SearchComponent:', value);
     this.hasSearched.set(value);
+  }
+
+  // Verifica se o coração deve estar pintado
+  isFavorite(movieId: number): boolean {
+    return this.favoriteService.isFavorite(movieId);
+  }
+
+  // A função do botão
+  toggleFavorite(movie: any, event: Event): void {
+    // ESTA É A MAGIA! Impede que o clique no coração abra a página de detalhes
+    event.stopPropagation(); 
+    event.preventDefault();
+
+    if (this.isFavorite(movie.id)) {
+      this.favoriteService.removeFavorite(movie.id);
+    } else {
+      this.favoriteService.addFavorite(movie);
+    }
   }
 }

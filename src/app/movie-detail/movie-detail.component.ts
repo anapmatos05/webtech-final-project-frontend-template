@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common'; 
-import { MovieService, Movie } from '../services/movie.service'; // Confirma se o caminho está correto
+import { MovieService, Movie } from '../services/movie.service';
+import { FavoriteService } from '../services/favorite.service'; // O serviço do localStorage
 
 @Component({
   selector: 'app-movie-detail',
@@ -12,13 +13,14 @@ import { MovieService, Movie } from '../services/movie.service'; // Confirma se 
 export class MovieDetailComponent implements OnInit {
   movie: Movie | undefined;
   imageBaseUrl: string = '';
+  isFav: boolean = false; // A variável que controla o botão do coração
 
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
+    private favoriteService: FavoriteService,
     private location: Location
   ) {
-    // Vamos buscar o URL base das imagens ao serviço da Ana
     this.imageBaseUrl = this.movieService.IMAGE_BASE_URL;
   }
 
@@ -27,14 +29,14 @@ export class MovieDetailComponent implements OnInit {
   }
 
   getMovie(): void {
-    // 1. Capturar o ID da rota (ex: /movie/123 -> id = 123)
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    // 2. Chamar a função do serviço
     if (id) {
       this.movieService.getMovieDetails(id).subscribe({
         next: (data) => {
           this.movie = data;
+          // Verifica se o filme já está nos favoritos
+          this.isFav = this.favoriteService.isFavorite(this.movie.id); 
         },
         error: (erro) => {
           console.error('Erro ao carregar os detalhes do filme:', erro);
@@ -44,7 +46,18 @@ export class MovieDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    // Função para regressar à página anterior
     this.location.back();
+  }
+
+  toggleFavorite(): void {
+    if (!this.movie) return;
+
+    if (this.isFav) {
+      this.favoriteService.removeFavorite(this.movie.id);
+      this.isFav = false;
+    } else {
+      this.favoriteService.addFavorite(this.movie);
+      this.isFav = true;
+    }
   }
 }
