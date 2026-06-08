@@ -295,3 +295,31 @@
         gap: 14px;
     }
 }
+
+/* Estilo do botão redondo de Favoritos */
+.btn-circular-favorito {
+  background-color: transparent; 
+  border: 1px solid #333; /* Borda cinzenta escura igual ao botão de Watchlist */
+  border-radius: 50%; /* É isto que faz o botão ficar um círculo perfeito */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #9ca3af; /* Cor do ícone (cinza claro) por defeito */
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+/* Efeito ao passar o rato (Hover) */
+.btn-circular-favorito:hover {
+  border-color: #ef4444; /* Borda fica vermelha */
+  color: #ef4444; /* Ícone fica vermelho */
+}
+
+/* Estilo quando o botão está clicado (Filme Favorito) */
+.btn-circular-favorito.ativo {
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1); /* Fundo muito subtil a vermelho */
+}

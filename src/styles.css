@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+/* Limpa as margens padrão do navegador e previne scrolls indesejados */
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #121212; /* Pinta o fundo global com o vosso tom escuro */
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Garante que nenhum elemento do site "transborda" para fora do ecrã */
+*, *:before, *:after {
+  box-sizing: inherit;
+}

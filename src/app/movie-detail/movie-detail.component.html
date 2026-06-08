@@ -17,8 +17,14 @@
     <h1 class="movie-title">{{ movie.title }}</h1>
     
     <div class="movie-meta">
-      <span class="meta-tag year"> {{ movie.release_date | slice:0:4 }}</span>
-      <span class="meta-tag rating"><span class="star"></span> {{ movie.vote_average | number:'1.1-1' }}</span>
+      <span class="meta-tag year">📅 {{ movie.release_date | slice:0:4 }}</span>
+      <span class="meta-tag rating"><span class="star">⭐</span> {{ movie.vote_average | number:'1.1-1' }}</span>
+      
+      <!-- O NOVO BOTÃO DE FAVORITOS -->
+      <button class="btn-favorite" [class.active]="isFav" (click)="toggleFavorite()">
+        <span class="heart">{{ isFav ? '❤️' : '🤍' }}</span> 
+        {{ isFav ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos' }}
+      </button>
     </div>
 
     <div class="synopsis-box">
@@ -30,5 +36,5 @@
 </div>
 
 <div *ngIf="!movie" class="loading-state">
-  <p> A preparar a sala de cinema...</p>
+  <p>🍿 A preparar a sala de cinema...</p>
 </div>

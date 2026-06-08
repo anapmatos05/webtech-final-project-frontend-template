@@ -53,8 +53,23 @@
           <p class="movie-overview">{{ movie.overview | slice:0:100 }}{{ movie.overview.length > 100 ? '...' : '' }}</p>
 
           <div class="card-actions">
-            <button class="btn-favorite" title="Adicionar aos favoritos" (click)="$event.stopPropagation()">
-              ♡
+            <!-- Repara no (click) que passa o evento e no [style.color] para pintar o coração de vermelho -->
+            <button 
+              class="btn-circular-favorito" 
+              [class.ativo]="isFavorite(movie.id)" 
+              (click)="toggleFavorite(movie, $event)"
+              title="Adicionar aos favoritos">
+              
+              <!-- Coração Vazio (Outline) quando NÃO é favorito -->
+              <svg *ngIf="!isFavorite(movie.id)" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+
+              <!-- Coração Cheio (Preenchido) quando É favorito -->
+              <svg *ngIf="isFavorite(movie.id)" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+
             </button>
             <button class="btn-watchlist" title="Adicionar à watchlist" (click)="$event.stopPropagation()">
               + Watchlist
