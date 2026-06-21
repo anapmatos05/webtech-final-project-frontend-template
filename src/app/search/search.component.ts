@@ -3,7 +3,7 @@ import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-search',
-  standalone: false,
+  standalone: false, //  Definido como false porque agora pertence ao SearchModule
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
