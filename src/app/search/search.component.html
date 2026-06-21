@@ -11,7 +11,7 @@
     <button (click)="onSearch()">Buscar</button>
   </div>
 
-  <div *ngIf="searchQuery.trim()">
+  <div *ngIf="hasSearched || isLoading">
     
     <div *ngIf="isLoading" class="loading">A pesquisar...</div>
 
