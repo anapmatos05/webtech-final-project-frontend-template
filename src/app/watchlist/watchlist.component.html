@@ -1,15 +1,27 @@
-<div class="watchlist-container">
-    <h1>A Minha Watchlist</h1>
+<div class="favorites-container">
+    <button routerLink="/" class="btn-back">
+        <span class="arrow">←</span> Voltar à Página Inicial
+    </button>
 
-    <div *ngIf="watchlistMovies.length === 0">
-        <p>Ainda não adicionaste nenhum filme à watchlist.</p>
+    <h1>A Minha Watchlist</h1>
+    <p class="subtitle">Filmes que queres ver em breve.</p>
+
+    <div *ngIf="watchlistMovies.length === 0" class="empty-state">
+        <span class="empty-icon">🎬</span>
+        <h2>A tua watchlist está vazia!</h2>
+        <p>Volta à página inicial e clica em + Watchlist para guardares filmes aqui.</p>
+        <button routerLink="/" class="btn-primary">Explorar Filmes</button>
     </div>
 
-    <div class="movies-grid">
-        <div class="movie-card" *ngFor="let movie of watchlistMovies">
-            <img [src]="imageBaseUrl + movie.poster_path" [alt]="movie.title" />
-            <h3>{{ movie.title }}</h3>
-            <button (click)="removeFromWatchlist(movie, $event)">Remover</button>
+    <div *ngIf="watchlistMovies.length > 0" class="movies-grid">
+        <div class="movie-card" *ngFor="let movie of watchlistMovies" [routerLink]="['/movie', movie.id]">
+            <img *ngIf="movie.poster_path" [src]="imageBaseUrl + movie.poster_path" [alt]="movie.title">
+            <div class="movie-info">
+                <h3>{{ movie.title }}</h3>
+                <button class="btn-remove" (click)="removeFromWatchlist(movie, $event)">
+                    ❌ Remover
+                </button>
+            </div>
         </div>
     </div>
 </div>
