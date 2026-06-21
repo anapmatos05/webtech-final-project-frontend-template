@@ -5,6 +5,7 @@ import { MovieService, Movie } from '../services/movie.service';
 import { SearchComponent } from '../search/search.component';
 import { SearchModule } from '../search/search.module';
 import { FavoriteService } from '../services/favorite.service';
+import { WatchlistService } from '../services/watchlist.service';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private movieService: MovieService,
-    private favoriteService: FavoriteService
+    private favoriteService: FavoriteService,
+    private watchlistService: WatchlistService
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   // A função do botão
   toggleFavorite(movie: any, event: Event): void {
-    // ESTA É A MAGIA! Impede que o clique no coração abra a página de detalhes
+    // Impede que o clique no coração abra a página de detalhes
     event.stopPropagation(); 
     event.preventDefault();
 
@@ -80,6 +82,19 @@ export class HomeComponent implements OnInit {
       this.favoriteService.removeFavorite(movie.id);
     } else {
       this.favoriteService.addFavorite(movie);
+    }
+  }
+   isInWatchlist(movieId: number): boolean {
+    return this.watchlistService.isInWatchlist(movieId);
+  }
+ // A função do botão da watchlist
+  toggleWatchlist(movie: any, event: Event): void {
+    event.stopPropagation();
+    event.preventDefault();
+    if (this.isInWatchlist(movie.id)) {
+      this.watchlistService.removeFromWatchlist(movie.id);
+    } else {
+      this.watchlistService.addToWatchlist(movie);
     }
   }
 }

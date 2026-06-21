@@ -1,33 +1,38 @@
 import { Routes } from '@angular/router';
+import { WatchlistComponent } from './watchlist/watchlist.component';
 
 export const routes: Routes = [
   // Rota para a página inicial (Home)
-  { 
-    path: '', 
-    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) 
+  {
+    path: '',
+    loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
   },
-  
+
   // Rota para a página de pesquisa
-  { 
-    path: 'search', 
-    loadComponent: () => import('./search/search.component').then(m => m.SearchComponent) 
+  {
+    path: 'search',
+    loadComponent: () => import('./search/search.component').then(m => m.SearchComponent)
   },
 
   // A TUA ROTA ATUALIZADA (Carrega o teu NgModule)
-  { 
-    path: 'movie/:id', 
+  {
+    path: 'movie/:id',
     loadChildren: () => import('./movie-detail/movie-detail.module').then(m => m.MovieDetailModule)
   },
 
   // Rota para a página de favoritos
-  { 
-    path: 'favorites', 
-    loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule) 
+  {
+    path: 'favorites',
+    loadChildren: () => import('./favorites/favorites.module').then(m => m.FavoritesModule)
   },
-
+  // Rota para a página de watchlist
+  {
+    path: 'watchlist',
+    loadChildren: () => import('./watchlist/watchlist.module').then(m => m.WatchlistModule)
+  },
   // Rota de segurança (sempre no fim)
-  { 
-    path: '**', 
-    redirectTo: '' 
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];

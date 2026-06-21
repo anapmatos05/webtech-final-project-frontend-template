@@ -71,8 +71,8 @@
               </svg>
 
             </button>
-            <button class="btn-watchlist" title="Adicionar à watchlist" (click)="$event.stopPropagation()">
-              + Watchlist
+            <button class="btn-watchlist" [class.ativo]="isInWatchlist(movie.id)" title="Adicionar à watchlist" (click)="toggleWatchlist(movie, $event)">
+              {{ isInWatchlist(movie.id) ? '🎬 Watchlist' : '+ Watchlist' }}
             </button>
           </div>
         </div>

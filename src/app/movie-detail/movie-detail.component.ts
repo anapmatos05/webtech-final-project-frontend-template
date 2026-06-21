@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common'; 
+import { Location } from '@angular/common';
 import { MovieService, Movie } from '../services/movie.service';
 import { FavoriteService } from '../services/favorite.service'; // O serviço do localStorage
+import { WatchlistService } from '../services/watchlist.service'; // O serviço do localStorage para a watchlist
 
 @Component({
   selector: 'app-movie-detail',
@@ -14,11 +15,13 @@ export class MovieDetailComponent implements OnInit {
   movie: Movie | undefined;
   imageBaseUrl: string = '';
   isFav: boolean = false; // A variável que controla o botão do coração
+  isInWatchlist: boolean = false; // A variável que controla o botão da watchlist
 
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
     private favoriteService: FavoriteService,
+    private watchlistService: WatchlistService,
     private location: Location
   ) {
     this.imageBaseUrl = this.movieService.IMAGE_BASE_URL;
@@ -36,7 +39,8 @@ export class MovieDetailComponent implements OnInit {
         next: (data) => {
           this.movie = data;
           // Verifica se o filme já está nos favoritos
-          this.isFav = this.favoriteService.isFavorite(this.movie.id); 
+          this.isFav = this.favoriteService.isFavorite(this.movie.id);
+          this.isInWatchlist = this.watchlistService.isInWatchlist(this.movie.id); // Verifica se o filme já está na watchlist
         },
         error: (erro) => {
           console.error('Erro ao carregar os detalhes do filme:', erro);
@@ -58,6 +62,17 @@ export class MovieDetailComponent implements OnInit {
     } else {
       this.favoriteService.addFavorite(this.movie);
       this.isFav = true;
+    }
+  }
+  toggleWatchlist(): void {
+    console.log('clicou watchlist', this.movie);
+    if (!this.movie) return;
+    if (this.isInWatchlist) {
+      this.watchlistService.removeFromWatchlist(this.movie.id);
+      this.isInWatchlist = false;
+    } else {
+      this.watchlistService.addToWatchlist(this.movie);
+      this.isInWatchlist = true;
     }
   }
 }

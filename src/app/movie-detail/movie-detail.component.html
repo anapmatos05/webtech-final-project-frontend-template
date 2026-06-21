@@ -1,29 +1,30 @@
 <div class="detail-wrapper" *ngIf="movie">
-  
+
   <button (click)="goBack()" class="btn-back">
     <span class="arrow">←</span> Voltar atrás
   </button>
 
   <div class="hero-section">
     <div class="image-overlay"></div>
-    <img 
-      *ngIf="movie.backdrop_path" 
-      [src]="imageBaseUrl + movie.backdrop_path" 
-      alt="Fundo do filme {{ movie.title }}" 
+    <img *ngIf="movie.backdrop_path" [src]="imageBaseUrl + movie.backdrop_path" alt="Fundo do filme {{ movie.title }}"
       class="backdrop-img">
   </div>
 
   <div class="content-section">
     <h1 class="movie-title">{{ movie.title }}</h1>
-    
+
     <div class="movie-meta">
       <span class="meta-tag year">📅 {{ movie.release_date | slice:0:4 }}</span>
       <span class="meta-tag rating"><span class="star">⭐</span> {{ movie.vote_average | number:'1.1-1' }}</span>
-      
+
       <!-- O NOVO BOTÃO DE FAVORITOS -->
       <button class="btn-favorite" [class.active]="isFav" (click)="toggleFavorite()">
-        <span class="heart">{{ isFav ? '❤️' : '🤍' }}</span> 
+        <span class="heart">{{ isFav ? '❤️' : '🤍' }}</span>
         {{ isFav ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos' }}
+      </button>
+      <button class="btn-favorite" [class.active]="isInWatchlist" (click)="toggleWatchlist()">
+        <span>{{ isInWatchlist ? '🎬' : '➕' }}</span>
+        {{ isInWatchlist ? 'Remover da Watchlist' : 'Adicionar à Watchlist' }}
       </button>
     </div>
 

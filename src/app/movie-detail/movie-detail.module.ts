@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieDetailComponent } from './movie-detail.component';
 import { FavoriteService } from '../services/favorite.service';
+import { WatchlistService } from '../services/watchlist.service';
+
 
 @NgModule({
   declarations: [
@@ -13,6 +15,7 @@ import { FavoriteService } from '../services/favorite.service';
     RouterModule.forChild([
       { path: '', component: MovieDetailComponent }
     ])
-  ]
+  ],
+  providers: [WatchlistService]
 })
 export class MovieDetailModule { }
