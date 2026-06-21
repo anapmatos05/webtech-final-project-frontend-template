@@ -11,30 +11,38 @@
     <button (click)="onSearch()">Buscar</button>
   </div>
 
-  <div *ngIf="hasSearched || isLoading">
-    
-    <div *ngIf="isLoading" class="loading">A pesquisar...</div>
+  @if (hasSearched || isLoading) {
+    <div>
+      @if (isLoading) {
+        <div class="loading">A pesquisar...</div>
+      }
 
-    <div *ngIf="!isLoading && searchResults.length > 0" class="movies-grid">
-      
-      <div class="movie-card" *ngFor="let movie of searchResults" [routerLink]="['/movie', movie.id]" style="cursor: pointer;">
-        
-        <img 
-          *ngIf="movie.poster_path"
-          [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
-          [alt]="movie.title"
-        />
-        <div class="movie-info">
-          <h3>{{ movie.title }}</h3>
-          <span class="rating">⭐ {{ movie.vote_average | number:'1.1-1' }}</span>
+      @if (!isLoading && searchResults.length > 0) {
+        <div class="movies-grid">
+          @for (movie of searchResults; track movie.id) {
+            <div class="movie-card" [routerLink]="['/movie', movie.id]" style="cursor: pointer;">
+              
+              @if (movie.poster_path) {
+                <img 
+                  [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+                  [alt]="movie.title"
+                />
+              }
+              
+              <div class="movie-info">
+                <h3>{{ movie.title }}</h3>
+                <span class="rating">⭐ {{ movie.vote_average | number:'1.1-1' }}</span>
+              </div>
+            </div>
+          }
         </div>
-      </div>
+      }
 
+      @if (hasSearched && !isLoading && searchResults.length === 0) {
+        <div class="no-results">
+          Nenhum filme encontrado para "{{ searchQuery }}".
+        </div>
+      }
     </div>
-
-    <div *ngIf="hasSearched && !isLoading && searchResults.length === 0" class="no-results">
-      Nenhum filme encontrado para "{{ searchQuery }}".
-    </div>
-
-  </div>
+  }
 </div>
