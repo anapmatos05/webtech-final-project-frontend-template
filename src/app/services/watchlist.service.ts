@@ -46,20 +46,15 @@ export class WatchlistService {
         });
     }
 
-    removeFromWatchlist(movieId: number): void {
-        const item = this.watchlist.find(w => w.movieId === movieId.toString());
-        if (!item) return;
-
-        const idParaDeletar = item.id || item._id;
-
-        this.http.delete(`${this.BACKEND_URL}/${idParaDeletar}`).subscribe({
-            next: () => {
-                this.watchlist = this.watchlist.filter(w => w.movieId !== movieId.toString());
-                console.log('Removido da watchlist:', movieId);
-            },
-            error: (err) => console.error('Erro ao remover da watchlist:', err)
-        });
-    }
+   removeFromWatchlist(id: string): void {
+    this.http.delete(`${this.BACKEND_URL}/${id}`).subscribe({
+        next: () => {
+            this.watchlist = this.watchlist.filter(w => (w.id || w._id) !== id);
+            console.log('Removido da watchlist:', id);
+        },
+        error: (err) => console.error('Erro ao remover da watchlist:', err)
+    });
+}
 
     updateStatus(id: string, status: string): Observable<any> {
         return this.http.put(`${this.BACKEND_URL}/${id}`, { status });

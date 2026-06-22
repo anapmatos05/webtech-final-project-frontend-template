@@ -47,17 +47,12 @@ export class FavoriteService {
     });
   }
 
-  removeFavorite(movieId: number): void {
-    // Trata tanto 'id' como '_id' para o caso do MongoDB
-    const favorite = this.favorites.find(f => f.movieId === movieId.toString());
-    if (!favorite) return;
-
-    const idParaDeletar = favorite.id || favorite._id;
-
-    this.http.delete(`${this.BACKEND_URL}/${idParaDeletar}`).subscribe({
+  removeFavorite(id: string): void {
+    this.http.delete(`${this.BACKEND_URL}/${id}`).subscribe({
       next: () => {
-        this.favorites = this.favorites.filter(f => f.movieId !== movieId.toString());
-        console.log('Removido dos favoritos:', movieId);
+        this.favorites = this.favorites.filter(f => (f._id || f.id) !== id);
+        console.log('Removido dos favoritos:', id);
+        this.loadFavorites(); // recarrega do backend
       },
       error: (err) => console.error('Erro ao remover favorito:', err)
     });
