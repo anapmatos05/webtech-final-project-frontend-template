@@ -36,7 +36,7 @@ export class WatchlistComponent implements OnInit {
   // Função para remover um filme da watchlist
   removeFromWatchlist(movie: any, event: Event): void {
     event.stopPropagation();
-    this.watchlistService.removeFromWatchlist(movie.id);
+    this.watchlistService.removeFromWatchlist(movie._id);
     this.loadWatchlist();
   }
 }

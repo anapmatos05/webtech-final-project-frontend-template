@@ -14,10 +14,10 @@
     </div>
 
     <div *ngIf="watchlistMovies.length > 0" class="movies-grid">
-        <div class="movie-card" *ngFor="let movie of watchlistMovies" [routerLink]="['/movie', movie.id]">
-            <img *ngIf="movie.poster_path" [src]="imageBaseUrl + movie.poster_path" [alt]="movie.title">
+        <div class="movie-card" *ngFor="let movie of watchlistMovies" [routerLink]="['/movie', movie.movieId]">
+            <img *ngIf="movie.moviePoster" [src]="imageBaseUrl + movie.moviePoster" [alt]="movie.movieTitle">
             <div class="movie-info">
-                <h3>{{ movie.title }}</h3>
+                <h3>{{ movie.movieTitle }}</h3>
                 <button class="btn-remove" (click)="removeFromWatchlist(movie, $event)">
                     ❌ Remover
                 </button>
