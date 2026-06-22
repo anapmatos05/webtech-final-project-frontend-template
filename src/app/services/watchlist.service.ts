@@ -15,18 +15,21 @@ export class WatchlistService {
         this.loadWatchlist();
     }
 
-    // Carrega a watchlist do backend e guarda localmente
-    private loadWatchlist(): void {
+    // Mudado para public para a Home conseguir chamar se for preciso
+    public loadWatchlist(): void {
         this.http.get<any[]>(this.BACKEND_URL).subscribe({
-            next: (data) => this.watchlist = data,
+            next: (data) => {
+                this.watchlist = Array.isArray(data) ? data : (data as any).data || [];
+                console.log('Watchlist carregada:', this.watchlist);
+            },
             error: (err) => console.error('Erro ao carregar watchlist:', err)
         });
     }
-    // Retorna a watchlist do utiizador
+
     getWatchlist(): Observable<any[]> {
         return this.http.get<any[]>(this.BACKEND_URL);
     }
-    // Adiciona um filme à watchlist
+
     addToWatchlist(movie: Movie, status: string = 'pending'): void {
         this.http.post(this.BACKEND_URL, {
             movieId: movie.id.toString(),
@@ -34,26 +37,36 @@ export class WatchlistService {
             moviePoster: movie.poster_path,
             status
         }).subscribe({
-            next: (data) => this.watchlist.push(data),
+            next: (res: any) => {
+                const novoItem = res.data ? res.data : res;
+                this.watchlist.push(novoItem);
+                console.log('Adicionado à watchlist localmente:', novoItem);
+            },
             error: (err) => console.error('Erro ao adicionar à watchlist:', err)
         });
     }
-    // Remove um filme da watchlist
+
     removeFromWatchlist(movieId: number): void {
         const item = this.watchlist.find(w => w.movieId === movieId.toString());
         if (!item) return;
 
-        this.http.delete(`${this.BACKEND_URL}/${item.id}`).subscribe({
-            next: () => this.watchlist = this.watchlist.filter(w => w.movieId !== movieId.toString()),
+        const idParaDeletar = item.id || item._id;
+
+        this.http.delete(`${this.BACKEND_URL}/${idParaDeletar}`).subscribe({
+            next: () => {
+                this.watchlist = this.watchlist.filter(w => w.movieId !== movieId.toString());
+                console.log('Removido da watchlist:', movieId);
+            },
             error: (err) => console.error('Erro ao remover da watchlist:', err)
         });
     }
-    // Atualiza o status de um filme na watchlist
+
     updateStatus(id: string, status: string): Observable<any> {
         return this.http.put(`${this.BACKEND_URL}/${id}`, { status });
     }
-    // Verifica se um filme está na watchlist
+
     isInWatchlist(movieId: number): boolean {
+        if (!this.watchlist) return false;
         return this.watchlist.some(w => w.movieId === movieId.toString());
     }
 }
