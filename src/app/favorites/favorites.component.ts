@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoriteService } from '../services/favorite.service';
-import { Movie, MovieService } from '../services/movie.service';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-favorites',
@@ -9,7 +9,7 @@ import { Movie, MovieService } from '../services/movie.service';
   styleUrls: ['./favorites.component.css']
 })
 export class FavoritesComponent implements OnInit {
-  favoriteMovies: Movie[] = [];
+  favoriteMovies: any[] = [];
   imageBaseUrl: string = '';
 
   constructor(
@@ -23,15 +23,20 @@ export class FavoritesComponent implements OnInit {
     this.loadFavorites();
   }
 
-  // Vai buscar a lista de filmes guardados
   loadFavorites(): void {
-    this.favoriteMovies = this.favoriteService.getFavorites();
+    this.favoriteService.getFavorites().subscribe({
+      next: (favorites) => {
+        this.favoriteMovies = favorites;
+      },
+      error: (err: any) => {
+        console.error('Erro ao carregar favoritos:', err);
+      }
+    });
   }
-
-  // Remove o filme e atualiza a grelha automaticamente
-  removeFromFavorites(movie: Movie, event: Event): void {
-    event.stopPropagation(); // Impede que o clique abra a página do filme
+  // Função para remover um filme dos favoritos
+  removeFromFavorites(movie: any, event: Event): void {
+    event.stopPropagation();
     this.favoriteService.removeFavorite(movie.id);
-    this.loadFavorites(); // Recarrega a lista para o filme desaparecer do ecrã
+    this.loadFavorites();
   }
 }

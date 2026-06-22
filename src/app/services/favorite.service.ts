@@ -1,45 +1,54 @@
 import { Injectable } from '@angular/core';
-import { Movie } from './movie.service'; // Importamos a estrutura do filme da Ana
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Movie } from './movie.service';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteService {
-  // O "nome da gaveta" onde vamos guardar os filmes no navegador
-  private readonly STORAGE_KEY = 'cinetrack_favoritos';
+  private readonly BACKEND_URL = `${environment.apiUrl}/favorites`;
+  private favorites: any[] = [];
 
-  constructor() { }
-
-  // 1. Ler os favoritos guardados
-  getFavorites(): Movie[] {
-    const saved = localStorage.getItem(this.STORAGE_KEY);
-    if (saved) {
-      return JSON.parse(saved); // Transforma o texto guardado de volta num Array
-    }
-    return [];
+  constructor(private http: HttpClient) {
+    this.loadFavorites();
   }
 
-  // 2. Adicionar um filme
+  // Carrega os favoritos do backend e guarda localmente
+  private loadFavorites(): void {
+    this.http.get<any[]>(this.BACKEND_URL).subscribe({
+      next: (data) => this.favorites = data,
+      error: (err) => console.error('Erro ao carregar favoritos:', err)
+    });
+  }
+
+  getFavorites(): Observable<any[]> {
+    return this.http.get<any[]>(this.BACKEND_URL);
+  }
+  // Adiciona um filme aos favoritos
   addFavorite(movie: Movie): void {
-    const favorites = this.getFavorites();
-    // Confirma se o filme já não está na lista para não haver repetidos
-    if (!favorites.find(m => m.id === movie.id)) {
-      favorites.push(movie);
-      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
-    }
+    this.http.post(this.BACKEND_URL, {
+      movieId: movie.id.toString(),
+      movieTitle: movie.title,
+      moviePoster: movie.poster_path
+    }).subscribe({
+      next: (data) => this.favorites.push(data),
+      error: (err) => console.error('Erro ao adicionar favorito:', err)
+    });
   }
-
-  // 3. Remover um filme
+  // Remove um filme dos favoritos
   removeFavorite(movieId: number): void {
-    let favorites = this.getFavorites();
-    // Filtra e guarda todos, EXCETO o que queremos apagar
-    favorites = favorites.filter(m => m.id !== movieId);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(favorites));
-  }
+    const favorite = this.favorites.find(f => f.movieId === movieId.toString());
+    if (!favorite) return;
 
-  // 4. Verificar se um filme já é favorito (para pintar o coração)
+    this.http.delete(`${this.BACKEND_URL}/${favorite.id}`).subscribe({
+      next: () => this.favorites = this.favorites.filter(f => f.movieId !== movieId.toString()),
+      error: (err) => console.error('Erro ao remover favorito:', err)
+    });
+  }
+  // Verifica se um filme está nos favoritos
   isFavorite(movieId: number): boolean {
-    const favorites = this.getFavorites();
-    return favorites.some(m => m.id === movieId);
+    return this.favorites.some(f => f.movieId === movieId.toString());
   }
 }
