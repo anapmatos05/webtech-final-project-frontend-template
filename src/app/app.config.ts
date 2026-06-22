@@ -1,7 +1,8 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
+import { authInterceptor } from './auth.interceptor';
 
 // Guardamos as configurações da API do TMDB aqui
 export const environment = {
@@ -12,8 +13,8 @@ export const environment = {
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient() // Isto ativa os pedidos HTTP para a internet na aplicação inteira!
+    provideHttpClient(withInterceptors([authInterceptor])) // Isto ativa os pedidos HTTP para a internet na aplicação inteira!
   ]
 };

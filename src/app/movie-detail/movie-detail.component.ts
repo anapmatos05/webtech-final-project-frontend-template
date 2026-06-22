@@ -57,7 +57,7 @@ export class MovieDetailComponent implements OnInit {
     if (!this.movie) return;
 
     if (this.isFav) {
-      this.favoriteService.removeFavorite(this.movie.id);
+      this.favoriteService.removeFavorite(this.movie.id.toString());
       this.isFav = false;
     } else {
       this.favoriteService.addFavorite(this.movie);
@@ -68,7 +68,7 @@ export class MovieDetailComponent implements OnInit {
     console.log('clicou watchlist', this.movie);
     if (!this.movie) return;
     if (this.isInWatchlist) {
-      this.watchlistService.removeFromWatchlist(this.movie.id);
+      this.watchlistService.removeFromWatchlist(this.movie.id.toString());
       this.isInWatchlist = false;
     } else {
       this.watchlistService.addToWatchlist(this.movie);

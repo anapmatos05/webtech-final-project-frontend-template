@@ -36,7 +36,7 @@ export class FavoritesComponent implements OnInit {
   // Função para remover um filme dos favoritos
   removeFromFavorites(movie: any, event: Event): void {
     event.stopPropagation();
-    this.favoriteService.removeFavorite(movie.id);
+    this.favoriteService.removeFavorite(movie._id);
     this.loadFavorites();
   }
 }
